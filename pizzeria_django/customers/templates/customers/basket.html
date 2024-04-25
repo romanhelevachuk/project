@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Cart Contents</h1>
+    <ul>
+        {% for item in basket_items %}
+            <li>
+                {{ item.product.name }} - Quantity: {{ item.quantity }}
+                <form action="{% url 'customers:remove-item' item.pk %}" method="post">
+                    {% csrf_token %}
+                    <label for="quantity">Remove:</label>
+                    <label>
+                        <input type="number" name="quantity" min="1" max="{{ item.quantity }}" value="1">
+                    </label>
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h2>Make Order</h2>
+    <form action="{% url 'customers:create_order' %}" method="post">
+        {% csrf_token %}
+        <label for="order_address">Order Address:</label>
+        <input type="text" id="order_address" name="order_address" required>
+        <button type="submit">Checkout</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+{% endblock %}
