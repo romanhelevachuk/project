@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<header>
+    <div>
+        {% if user.is_authenticated %}
+            Current user: {{ user.username }}
+        {% else %}
+            Current user: Not logged in
+        {% endif %}
+    </div>
+    <div>
+        AUTHENTICATION:
+        {% if user.is_authenticated %}
+            <a href="{% url 'users:logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'users:login' %}">Login</a>
+            <a href="{% url 'users:register' %}">Register</a>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+    <div>
+        BASKET:
+            <a href="{% url 'customers:basket' %}">View Basket</a>
+    </div>
+    {% endif %}
+    <div>
+        SITE:
+        <a href="{% url 'products:product_list' %}">Catalog</a>
+    </div>
+    <hr>
+</header>
+{% block content %} {% endblock %}
+</body>
+</html>
